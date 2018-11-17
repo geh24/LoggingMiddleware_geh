@@ -3,4 +3,4 @@ update Package version
 
 2.Build package
 
-3.
+3.Upload to nuget.org
