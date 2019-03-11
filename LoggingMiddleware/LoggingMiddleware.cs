@@ -55,51 +55,16 @@ namespace LoggingMiddleware
             _next = next;
         }
 
-        //see https://exceptionnotfound.net/using-middleware-to-log-requests-and-responses-in-asp-net-core/?utm_campaign=Revue%20newsletter&utm_medium=Newsletter&utm_source=ASP.NET%20Weekly
         public async Task InvokeAsync(HttpContext httpContext)
         {
             log.Info(HttpLogger.REQUEST, httpContext);
 
-            var originalBodyStream = httpContext.Response.Body;
+            await this._next(httpContext);
 
-            using (var responseBody = new MemoryStream())
-            {
-                httpContext.Response.Body = responseBody;
-
-                try {
-                    await this._next(httpContext);
-                } catch (Exception ex)
-                {
-                    log.Error(HttpLogger.REQUEST, httpContext);
-                    log.Error(ex.Message);
-                    throw;
-                }
-
-                bool bFullResponse = Convert.ToBoolean( logOption & LOG_FULL_RESPONSE );
-
-                string response = await FormatResponse(httpContext.Response);
-                log.Info(HttpLogger.RESPONSE,
-                    httpContext,
-                    response.Length.ToString(), bFullResponse ? response : "");
-
-                await responseBody.CopyToAsync(originalBodyStream);
-            }
+            var response = httpContext.Response;
+            log.Info(HttpLogger.RESPONSE, httpContext,
+                    response.ContentLength?.ToString(),
+                    response.ContentType);
         }
-
-        private async Task<string> FormatResponse(HttpResponse response)
-        {
-            //We need to read the response stream from the beginning...
-            response.Body.Seek(0, SeekOrigin.Begin);
-
-            //...and copy it into a string
-            string text = await new StreamReader(response.Body).ReadToEndAsync();
-
-            //We need to reset the reader for the response so that the client can read it.
-            response.Body.Seek(0, SeekOrigin.Begin);
-
-            //Return the string for the response, including the status code (e.g. 200, 404, 401, etc.)
-            return $"{text}";
-        }
-
     }
 }
