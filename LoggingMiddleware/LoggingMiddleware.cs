@@ -4,7 +4,8 @@ using NLog;
 using NLog.Common;
 using NLog.Web;
 using System;
-using System.IO;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LoggingMiddleware
@@ -55,16 +56,38 @@ namespace LoggingMiddleware
             _next = next;
         }
 
+        private ConcurrentDictionary<string, long> cdictStartTicks = new ConcurrentDictionary<string, long>();
+
         public async Task InvokeAsync(HttpContext httpContext)
         {
             log.Info(HttpLogger.REQUEST, httpContext);
+            cdictStartTicks.TryAdd(httpContext.TraceIdentifier, DateTime.Now.Ticks);
 
             await this._next(httpContext);
 
-            var response = httpContext.Response;
+            long ticks1;
+            long millis = -1;
+            if (cdictStartTicks.TryRemove(httpContext.TraceIdentifier, out ticks1)) {
+                //Ticks are in 100 ns
+                millis = (DateTime.Now.Ticks - ticks1) / 10000;
+            }
+
             log.Info(HttpLogger.RESPONSE, httpContext,
-                    response.ContentLength?.ToString(),
-                    response.ContentType);
+                httpContext.Response.ContentLength?.ToString(),
+                (millis > 0) ? millis.ToString() : "",
+                httpContext.Response.ContentType);
+
+            if ( cdictStartTicks.Count > 100 ) {
+                log.Debug("cdictStartTicks.Count: " + cdictStartTicks.Count);
+                long test;
+                long ticks2 = DateTime.Now.Ticks + 3000000000; // added 300 ms
+                KeyValuePair<string, long>[] keyPairs = cdictStartTicks.ToArray();
+                foreach (KeyValuePair<string, long> kp in keyPairs) {
+                    if (kp.Value > ticks2) {
+                        cdictStartTicks.TryRemove(kp.Key, out test);
+                    }
+                }
+            }
         }
     }
 }

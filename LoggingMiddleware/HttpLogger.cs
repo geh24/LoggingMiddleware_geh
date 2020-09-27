@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Linq;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace LoggingMiddleware
 {
@@ -46,7 +47,7 @@ namespace LoggingMiddleware
             log.Trace(ex, msg);
         }
 
-        private string formatLog(int type, HttpContext ctx, string msg1, string msg2) {
+        private string formatLog(int type, HttpContext ctx, string msg1, string msg2, string msg3) {
             string msg;
             switch (type) {
                 case REQUEST:
@@ -56,25 +57,25 @@ namespace LoggingMiddleware
                               + ctx.TraceIdentifier + "|"
                               + ctx.Request.Path + "|"
                               + "Request|" + ci.FindFirst("Serial")?.Value + "|"
-                              + msg1 + "|" + msg2;
+                              + msg1 + "|" + msg2 + "|" + msg3;
                     break;
                 case RESPONSE:
                     if (ctx.Response.StatusCode == 403)
                     {
-                        JObject rc = new JObject();
+                        Dictionary<string, string> rc = new Dictionary<string, string>();
                         ClaimsIdentity ci2 = (ClaimsIdentity)ctx.User.Identity;
                         foreach ( Claim c in ci2.Claims )
                         {
                             rc.Add(c.Type, c.Value);
                         }
-                        msg1 = rc.ToString();
+                        msg1 = JsonSerializer.Serialize(rc);
                     }
                     msg = ctx.Connection.RemoteIpAddress + "|"
                               + ctx.Request.Host + "|" + ctx.Request.Method + "|"
                               + ctx.TraceIdentifier + "|"
                               + ctx.Request.Path + "|"
                               + "Response|" + ctx.Response.StatusCode + "|"
-                              + msg1 + "|" + msg2;
+                              + msg1 + "|" + msg2 + "|" + msg3;
                     break;
                 default:
                     msg = ctx.Connection.RemoteIpAddress + "|Unknown";
@@ -83,29 +84,29 @@ namespace LoggingMiddleware
             return msg;
         }
 
-        public void Fatal(int type, HttpContext ctx, string msg1 = null, string msg2 = null)
+        public void Fatal(int type, HttpContext ctx, string msg1 = null, string msg2 = null, string msg3 = null)
         {
-            log.Fatal(formatLog(type, ctx, msg1, msg2));
+            log.Fatal(formatLog(type, ctx, msg1, msg2, msg3));
         }
-        public void Error(int type, HttpContext ctx, string msg1 = null, string msg2 = null)
+        public void Error(int type, HttpContext ctx, string msg1 = null, string msg2 = null, string msg3 = null)
         {
-            log.Error(formatLog(type, ctx, msg1, msg2));
+            log.Error(formatLog(type, ctx, msg1, msg2, msg3));
         }
-        public void Warn(int type, HttpContext ctx, string msg1 = null, string msg2 = null)
+        public void Warn(int type, HttpContext ctx, string msg1 = null, string msg2 = null, string msg3 = null)
         {
-            log.Warn(formatLog(type, ctx, msg1, msg2));
+            log.Warn(formatLog(type, ctx, msg1, msg2, msg3));
         }
-        public void Info(int type, HttpContext ctx, string msg1 = null, string msg2 = null)
+        public void Info(int type, HttpContext ctx, string msg1 = null, string msg2 = null, string msg3 = null)
         {
-            log.Info(formatLog(type, ctx, msg1, msg2));
+            log.Info(formatLog(type, ctx, msg1, msg2, msg3));
         }
-        public void Debug(int type, HttpContext ctx, string msg1 = null, string msg2 = null)
+        public void Debug(int type, HttpContext ctx, string msg1 = null, string msg2 = null, string msg3 = null)
         {
-            log.Debug(formatLog(type, ctx, msg1, msg2));
+            log.Debug(formatLog(type, ctx, msg1, msg2, msg3));
         }
         public void Trace(int type, HttpContext ctx, string msg1 = null, string msg2 = null, string msg3 = null)
         {
-            log.Trace(formatLog(type, ctx, msg1, msg2));
+            log.Trace(formatLog(type, ctx, msg1, msg2, msg3));
         }
 
     }
