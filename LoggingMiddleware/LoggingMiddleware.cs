@@ -29,7 +29,7 @@ namespace LoggingMiddleware
         public const int LOG_DEFAULT = 0;
         public const int LOG_FULL_RESPONSE = 0b00000001;
 
-        public static void init()
+        public static void init(string nlogConfig)
         {
             // Define variables and initialize NLog
             string domainName = AppDomain.CurrentDomain.FriendlyName;
@@ -38,7 +38,7 @@ namespace LoggingMiddleware
             GlobalDiagnosticsContext.Set("logdir", logdir);
             InternalLogger.LogFile = logdir + "/" + domainName + "_internal.log";
 
-            logFactory = NLogBuilder.ConfigureNLog("nlog.config");
+            logFactory = NLogBuilder.ConfigureNLog(nlogConfig);
         }
 
         public static void setLogOption(int aLogOption)
