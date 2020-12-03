@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>0.3.4</Version>
+    <TargetFramework>net5.0</TargetFramework>
+    <Version>0.5.0</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>-&gt; .NET Core 3.1</Description>
+    <Description>-&gt; .NET 5.0</Description>
     <PackageReleaseNotes>NLog configuration as parameter</PackageReleaseNotes>
   </PropertyGroup>
   
