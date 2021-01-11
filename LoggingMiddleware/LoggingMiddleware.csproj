@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>0.5.0</Version>
+    <Version>0.5.1</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>-&gt; .NET 5.0</Description>
+    <Description>add enableDebugBody</Description>
     <PackageReleaseNotes>NLog configuration as parameter</PackageReleaseNotes>
   </PropertyGroup>
   

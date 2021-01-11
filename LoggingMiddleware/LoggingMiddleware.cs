@@ -6,6 +6,8 @@ using NLog.Web;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LoggingMiddleware
@@ -23,11 +25,9 @@ namespace LoggingMiddleware
     {
         private static LogFactory logFactory;
         private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware));
-        private readonly RequestDelegate _next;
+        private static bool bDebugBody = false;
 
-        private static int logOption = LOG_DEFAULT;
-        public const int LOG_DEFAULT = 0;
-        public const int LOG_FULL_RESPONSE = 0b00000001;
+        private readonly RequestDelegate _next;
 
         public static void init(string nlogConfig)
         {
@@ -41,15 +41,15 @@ namespace LoggingMiddleware
             logFactory = NLogBuilder.ConfigureNLog(nlogConfig);
         }
 
-        public static void setLogOption(int aLogOption)
-        {
-            logOption = aLogOption;
-        }
-
         public static Logger getLoger()
         {
             return logFactory.GetCurrentClassLogger();
-        } 
+        }
+
+        public static void enableDebugBody(bool b)
+        {
+            bDebugBody = b;
+        }
 
         public LoggingMiddleware(RequestDelegate next)
         {
@@ -61,29 +61,81 @@ namespace LoggingMiddleware
         public async Task InvokeAsync(HttpContext httpContext)
         {
             log.Info(HttpLogger.REQUEST, httpContext);
+            if ( bDebugBody )
+            {
+                string body;
+                var req = httpContext.Request;
+
+                // Allows using several time the stream in ASP.Net Core
+                req.EnableBuffering();
+
+                using (StreamReader reader
+                    = new StreamReader(req.Body, Encoding.UTF8, true, 1024, true))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+
+                // Rewind, so the core is not lost when it looks the body for the request
+                req.Body.Position = 0;
+                log.Debug(HttpLogger.REQUEST, httpContext, body);
+            }
             cdictStartTicks.TryAdd(httpContext.TraceIdentifier, DateTime.Now.Ticks);
 
-            await this._next(httpContext);
+            string responseBody = null;
+            if ( bDebugBody ) {
+                using (var swapStream = new MemoryStream())
+                {
+                    var originalResponseBody = httpContext.Response.Body;
+                    httpContext.Response.Body = swapStream;
 
-            long ticks1;
+                    await this._next(httpContext);
+
+                    swapStream.Seek(0, SeekOrigin.Begin);
+                    responseBody = new StreamReader(swapStream).ReadToEnd();
+                    swapStream.Seek(0, SeekOrigin.Begin);
+                    await swapStream.CopyToAsync(originalResponseBody);
+                    httpContext.Response.Body = originalResponseBody;
+                }
+            } else {
+                await this._next(httpContext);
+            }
+
             long millis = -1;
-            if (cdictStartTicks.TryRemove(httpContext.TraceIdentifier, out ticks1)) {
+            if (cdictStartTicks.TryRemove(httpContext.TraceIdentifier, out long ticks1)) {
                 //Ticks are in 100 ns
                 millis = (DateTime.Now.Ticks - ticks1) / 10000;
             }
 
-            log.Info(HttpLogger.RESPONSE, httpContext,
-                httpContext.Response.ContentLength?.ToString(),
+            long? len = httpContext.Response.ContentLength;
+            if ( len == null && responseBody != null) {
+                len = responseBody.Length;
+            }
+
+            log.Info(HttpLogger.RESPONSE,
+                httpContext,
+                len?.ToString(),
                 (millis > 0) ? millis.ToString() : "",
                 httpContext.Response.ContentType);
 
+            if ( bDebugBody )
+            {
+                log.Debug(HttpLogger.RESPONSE,
+                    httpContext,
+                    responseBody.Length.ToString(),
+                    (millis > 0) ? millis.ToString() : "",
+                    httpContext.Response.ContentType
+                    + "|" + responseBody);
+            }
+
+            // House-keeping of lost Responsemessages
             if ( cdictStartTicks.Count > 100 ) {
-                log.Debug("cdictStartTicks.Count: " + cdictStartTicks.Count);
+                log.Info("cdictStartTicks.Count: " + cdictStartTicks.Count);
                 long test;
                 long ticks2 = DateTime.Now.Ticks + 3000000000; // added 300 ms
                 KeyValuePair<string, long>[] keyPairs = cdictStartTicks.ToArray();
                 foreach (KeyValuePair<string, long> kp in keyPairs) {
                     if (kp.Value > ticks2) {
+                        log.Warn("Remove Tick: " + kp.Key);
                         cdictStartTicks.TryRemove(kp.Key, out test);
                     }
                 }

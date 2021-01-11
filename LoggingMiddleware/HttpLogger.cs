@@ -16,7 +16,7 @@ namespace LoggingMiddleware
         public const int REQUEST = 1;
         public const int RESPONSE = 2;
 
-        private Logger log;
+        private readonly Logger log;
 
         private HttpLogger(string name) {
             log = LogManager.GetLogger(name);
@@ -57,7 +57,8 @@ namespace LoggingMiddleware
                               + ctx.TraceIdentifier + "|"
                               + ctx.Request.Path + "|"
                               + "Request|" + ci.FindFirst("Serial")?.Value + "|"
-                              + msg1 + "|" + msg2 + "|" + msg3;
+                              + ctx.Request.ContentLength + "||" + ctx.Request.ContentType
+                              + "|" + msg1;
                     break;
                 case RESPONSE:
                     if (ctx.Response.StatusCode == 403)
