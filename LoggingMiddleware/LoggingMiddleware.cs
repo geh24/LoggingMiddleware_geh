@@ -82,22 +82,34 @@ namespace LoggingMiddleware
             cdictStartTicks.TryAdd(httpContext.TraceIdentifier, DateTime.Now.Ticks);
 
             string responseBody = null;
-            if ( bDebugBody ) {
-                using (var swapStream = new MemoryStream())
+            try
+            {
+                if (bDebugBody)
                 {
-                    var originalResponseBody = httpContext.Response.Body;
-                    httpContext.Response.Body = swapStream;
+                    using (var swapStream = new MemoryStream())
+                    {
+                        var originalResponseBody = httpContext.Response.Body;
+                        httpContext.Response.Body = swapStream;
 
-                    await this._next(httpContext);
+                        await this._next(httpContext);
 
-                    swapStream.Seek(0, SeekOrigin.Begin);
-                    responseBody = new StreamReader(swapStream).ReadToEnd();
-                    swapStream.Seek(0, SeekOrigin.Begin);
-                    await swapStream.CopyToAsync(originalResponseBody);
-                    httpContext.Response.Body = originalResponseBody;
+                        swapStream.Seek(0, SeekOrigin.Begin);
+                        responseBody = new StreamReader(swapStream).ReadToEnd();
+                        swapStream.Seek(0, SeekOrigin.Begin);
+                        await swapStream.CopyToAsync(originalResponseBody);
+                        httpContext.Response.Body = originalResponseBody;
+                    }
                 }
-            } else {
-                await this._next(httpContext);
+                else
+                {
+                    await this._next(httpContext);
+                }
+            } catch(Exception e) {
+                log.Error(HttpLogger.RESPONSE,
+                    httpContext,
+                    null,
+                    null,
+                    e.Message);
             }
 
             long millis = -1;
