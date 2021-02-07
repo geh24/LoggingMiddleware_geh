@@ -25,7 +25,7 @@ namespace LoggingMiddleware
     {
         private static LogFactory logFactory;
         private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware));
-        private static bool bDebugBody = false;
+        private static bool bTrace = false;
 
         private readonly RequestDelegate _next;
 
@@ -46,9 +46,9 @@ namespace LoggingMiddleware
             return logFactory.GetCurrentClassLogger();
         }
 
-        public static void enableDebugBody(bool b)
+        public static void enableTrace(bool b)
         {
-            bDebugBody = b;
+            bTrace = b;
         }
 
         public LoggingMiddleware(RequestDelegate next)
@@ -61,7 +61,7 @@ namespace LoggingMiddleware
         public async Task InvokeAsync(HttpContext httpContext)
         {
             log.Info(HttpLogger.REQUEST, httpContext);
-            if ( bDebugBody )
+            if ( bTrace )
             {
                 string body;
                 var req = httpContext.Request;
@@ -77,14 +77,14 @@ namespace LoggingMiddleware
 
                 // Rewind, so the core is not lost when it looks the body for the request
                 req.Body.Position = 0;
-                log.Debug(HttpLogger.REQUEST, httpContext, body);
+                log.Trace(HttpLogger.REQUEST, httpContext, body);
             }
             cdictStartTicks.TryAdd(httpContext.TraceIdentifier, DateTime.Now.Ticks);
 
             string responseBody = null;
             try
             {
-                if (bDebugBody)
+                if (bTrace)
                 {
                     using (var swapStream = new MemoryStream())
                     {
@@ -129,9 +129,9 @@ namespace LoggingMiddleware
                 (millis > 0) ? millis.ToString() : "",
                 httpContext.Response.ContentType);
 
-            if ( bDebugBody )
+            if ( bTrace )
             {
-                log.Debug(HttpLogger.RESPONSE,
+                log.Trace(HttpLogger.RESPONSE,
                     httpContext,
                     responseBody.Length.ToString(),
                     (millis > 0) ? millis.ToString() : "",

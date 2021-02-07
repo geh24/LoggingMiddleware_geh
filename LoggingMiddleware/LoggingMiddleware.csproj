@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>0.5.2</Version>
+    <Version>0.5.4</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
