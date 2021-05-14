@@ -133,7 +133,7 @@ namespace LoggingMiddleware
             {
                 log.Trace(HttpLogger.RESPONSE,
                     httpContext,
-                    responseBody.Length.ToString(),
+                    responseBody?.Length.ToString(),
                     (millis > 0) ? millis.ToString() : "",
                     httpContext.Response.ContentType
                     + "|" + responseBody);
