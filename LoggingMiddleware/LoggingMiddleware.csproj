@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>0.5.5</Version>
+    <Version>0.5.7</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>improve error-handling</Description>
+    <Description>add LMLogger with linenumber</Description>
     <PackageReleaseNotes>NLog configuration as parameter</PackageReleaseNotes>
   </PropertyGroup>
   
