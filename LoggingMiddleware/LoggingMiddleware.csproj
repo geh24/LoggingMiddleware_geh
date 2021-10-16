@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>0.5.7</Version>
+    <Version>0.5.8</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>add LMLogger with linenumber</Description>
-    <PackageReleaseNotes>NLog configuration as parameter</PackageReleaseNotes>
+    <Description></Description>
+    <PackageReleaseNotes>NLog.Web.AspNetCore -&gt; 4.14</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
