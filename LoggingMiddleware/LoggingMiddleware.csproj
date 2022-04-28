@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>0.5.8</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>0.6.0</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description></Description>
-    <PackageReleaseNotes>NLog.Web.AspNetCore -&gt; 4.14</PackageReleaseNotes>
+    <PackageReleaseNotes>Upgrade .NET 6.0</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
