@@ -58,7 +58,7 @@ namespace LoggingMiddleware
                               + ctx.Request.Path + "|"
                               + "Request|" + ci.FindFirst("Serial")?.Value + "|"
                               + ctx.Request.ContentLength + "||" + ctx.Request.ContentType
-                              + "|" + msg1;
+                              + "|" + msg1 + "|" + msg2 + "|" + msg3;
                     break;
                 case RESPONSE:
                     if (ctx.Response.StatusCode == 403)

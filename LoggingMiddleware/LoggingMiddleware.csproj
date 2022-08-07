@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>0.6.0</Version>
+    <Version>0.6.1</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description></Description>
-    <PackageReleaseNotes>Upgrade .NET 6.0</PackageReleaseNotes>
+    <PackageReleaseNotes>add TraceHeaders, TraceQuery</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
