@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,9 @@ namespace LoggingMiddleware
     {
         private static LogFactory logFactory;
         private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware));
-        private static bool bTrace = false;
+        private static bool bTraceBody = false;
+        private static bool bTraceHeaders = false;
+        private static bool bTraceQuery = false;
 
         private readonly RequestDelegate _next;
 
@@ -46,9 +49,17 @@ namespace LoggingMiddleware
             return logFactory.GetCurrentClassLogger();
         }
 
-        public static void enableTrace(bool b)
+        public static void enableTraceBody(bool b)
         {
-            bTrace = b;
+            bTraceBody = b;
+        }
+        public static void enableTraceHeaders(bool b)
+        {
+            bTraceHeaders = b;
+        }
+        public static void enableTraceQuery(bool b)
+        {
+            bTraceQuery = b;
         }
 
         public LoggingMiddleware(RequestDelegate next)
@@ -61,9 +72,18 @@ namespace LoggingMiddleware
         public async Task InvokeAsync(HttpContext httpContext)
         {
             log.Info(HttpLogger.REQUEST, httpContext);
-            if ( bTrace )
+
+            string headers = null;
+            if (bTraceHeaders) {
+                headers = httpContext.Request.Headers.Select(x => x.ToString()).Aggregate((a, b) => a + ":" + b);
+            }
+            string queryString = null;
+            if (bTraceQuery) {
+                queryString = httpContext.Request.QueryString.ToString();
+            }
+            string body = null;
+            if ( bTraceBody )
             {
-                string body;
                 var req = httpContext.Request;
 
                 // Allows using several time the stream in ASP.Net Core
@@ -77,14 +97,16 @@ namespace LoggingMiddleware
 
                 // Rewind, so the core is not lost when it looks the body for the request
                 req.Body.Position = 0;
-                log.Trace(HttpLogger.REQUEST, httpContext, body);
+            }
+            if ( bTraceBody || bTraceHeaders || bTraceQuery) {
+                log.Trace(HttpLogger.REQUEST, httpContext, body, headers, queryString);
             }
             cdictStartTicks.TryAdd(httpContext.TraceIdentifier, DateTime.Now.Ticks);
 
             string responseBody = null;
-            try
-            {
-                if (bTrace)
+            string responseHeaders = null;
+            try {
+                if (bTraceBody)
                 {
                     using (var swapStream = new MemoryStream())
                     {
@@ -99,8 +121,10 @@ namespace LoggingMiddleware
                         await swapStream.CopyToAsync(originalResponseBody);
                         httpContext.Response.Body = originalResponseBody;
                     }
-                }
-                else
+                    if (bTraceHeaders) {
+                        responseHeaders = httpContext.Response.Headers.Select(x => x.ToString()).Aggregate((a, b) => a + ":" + b);
+                    }
+                } else
                 {
                     await this._next(httpContext);
                 }
@@ -129,14 +153,14 @@ namespace LoggingMiddleware
                 (millis > 0) ? millis.ToString() : "",
                 httpContext.Response.ContentType);
 
-            if ( bTrace )
+            if ( bTraceBody || bTraceHeaders )
             {
                 log.Trace(HttpLogger.RESPONSE,
                     httpContext,
                     responseBody?.Length.ToString(),
                     (millis > 0) ? millis.ToString() : "",
                     httpContext.Response.ContentType
-                    + "|" + responseBody);
+                    + "|" + responseBody + "|" + responseHeaders);
             }
 
             // House-keeping of lost Responsemessages
