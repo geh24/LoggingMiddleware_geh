@@ -28,7 +28,7 @@ namespace LoggingMiddleware
         private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware));
         private static bool bTraceBody = false;
         private static bool bTraceHeaders = false;
-        private static bool bTraceQuery = false;
+        private static bool bTraceQueryString = false;
 
         private readonly RequestDelegate _next;
 
@@ -57,9 +57,9 @@ namespace LoggingMiddleware
         {
             bTraceHeaders = b;
         }
-        public static void enableTraceQuery(bool b)
+        public static void enableTraceQueryString(bool b)
         {
-            bTraceQuery = b;
+            bTraceQueryString = b;
         }
 
         public LoggingMiddleware(RequestDelegate next)
@@ -78,7 +78,7 @@ namespace LoggingMiddleware
                 headers = httpContext.Request.Headers.Select(x => x.ToString()).Aggregate((a, b) => a + ":" + b);
             }
             string queryString = null;
-            if (bTraceQuery) {
+            if (bTraceQueryString) {
                 queryString = httpContext.Request.QueryString.ToString();
             }
             string body = null;
@@ -98,7 +98,7 @@ namespace LoggingMiddleware
                 // Rewind, so the core is not lost when it looks the body for the request
                 req.Body.Position = 0;
             }
-            if ( bTraceBody || bTraceHeaders || bTraceQuery) {
+            if ( bTraceBody || bTraceHeaders || bTraceQueryString) {
                 log.Trace(HttpLogger.REQUEST, httpContext, body, headers, queryString);
             }
             cdictStartTicks.TryAdd(httpContext.TraceIdentifier, DateTime.Now.Ticks);
