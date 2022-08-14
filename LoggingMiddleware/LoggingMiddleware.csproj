@@ -7,11 +7,11 @@
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description></Description>
-    <PackageReleaseNotes>rename TraceQuery -> TraceQueryString</PackageReleaseNotes>
+    <PackageReleaseNotes>rename TraceQuery to TraceQueryString</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="NLog.Database" Version="5.0.1" />
+    <PackageReference Include="NLog.Database" Version="5.0.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.0" />
   </ItemGroup>
 
