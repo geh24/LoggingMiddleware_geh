@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace LoggingMiddleware
+namespace LoggingMiddleware_geh
 {
     public class HttpLogger
     {

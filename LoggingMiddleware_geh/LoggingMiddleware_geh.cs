@@ -11,18 +11,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoggingMiddleware
+namespace LoggingMiddleware_geh
 {
     public static class LoggingMiddlewareExtensions
     {
         public static IApplicationBuilder UseLoggingMiddleware(
             this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<LoggingMiddleware>();
+            return builder.UseMiddleware<LoggingMiddleware_geh>();
         }
     }
 
-    public class LoggingMiddleware
+    public class LoggingMiddleware_geh
     {
         private static LogFactory logFactory;
         private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware));
@@ -62,7 +62,7 @@ namespace LoggingMiddleware
             bTraceQueryString = b;
         }
 
-        public LoggingMiddleware(RequestDelegate next)
+        public LoggingMiddleware_geh(RequestDelegate next)
         {
             _next = next;
         }
