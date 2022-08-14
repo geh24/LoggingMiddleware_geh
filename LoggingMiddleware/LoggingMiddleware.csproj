@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Version>0.7.2</Version>
+    <Version>0.7.3</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description></Description>
-    <PackageReleaseNotes>add TraceHeaders, TraceQuery</PackageReleaseNotes>
+    <PackageReleaseNotes>rename TraceQuery -> TraceQueryString</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
