@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Version>0.7.3</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>0.6.3</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description></Description>
-    <PackageReleaseNotes>rename TraceQuery to TraceQueryString</PackageReleaseNotes>
+    <PackageReleaseNotes>rename TraceQuery -> TraceQueryString</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
