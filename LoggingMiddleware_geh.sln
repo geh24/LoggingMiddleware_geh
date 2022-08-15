@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingMiddleware_geh", "Lo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7C4CB5E-3164-4DBC-B130-3F171B13AC79}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
