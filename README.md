@@ -2,20 +2,16 @@
 
 ## Description
 
+July 2018 i started to write a .NET Core middleware, that should log APi-requests.
+The LoggingMiddleware project is based on NLog.
+
+I used this project successfuly since three years, starting with .NET Core 3.1, right now the
+master-branch is using .NET Core 6.0.
+
 The name LoggingMiddleware was already used, so i appended my 3-char Initials meaning Gerhard Herre
 
-This Logging-Middleware is based on NLog.
+GH4
 
 ## Demo
 
 There is a Demo project called LoggingMiddleware_geh_Demo.
-The Demo-project is based on "ASP.NET Core Web API" using the old <= .NET Core 6 top-level statements
-
-## Build
-
-1.Open Properties
-update Package version
-
-2.Build package
-
-3.Upload to nuget.org
