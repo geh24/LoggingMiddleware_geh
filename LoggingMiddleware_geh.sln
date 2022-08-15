@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingMiddleware", "LoggingMiddleware\LoggingMiddleware.csproj", "{6800CC02-856E-4B9D-8C70-95D3373149CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingMiddleware_geh", "LoggingMiddleware_geh\LoggingMiddleware_geh.csproj", "{6800CC02-856E-4B9D-8C70-95D3373149CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
