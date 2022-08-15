@@ -10,7 +10,7 @@ master-branch is using .NET Core 6.0.
 
 The name LoggingMiddleware was already used, so i appended my 3-char Initials meaning Gerhard Herre
 
-GH1
+GH2
 
 ## Demo
 
