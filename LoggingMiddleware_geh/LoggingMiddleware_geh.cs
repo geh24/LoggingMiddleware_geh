@@ -103,6 +103,9 @@ namespace LoggingMiddleware_geh
             }
             cdictStartTicks.TryAdd(httpContext.TraceIdentifier, DateTime.Now.Ticks);
 
+            //replace MeoryStream by RecyclableMemoryStream
+            //see https://github.com/microsoft/Microsoft.IO.RecyclableMemoryStream
+            //see https://elanderson.net/2019/12/log-requests-and-responses-in-asp-net-core-3/ LogResponse
             string responseBody = null;
             string responseHeaders = null;
             try {
