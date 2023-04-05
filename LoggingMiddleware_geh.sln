@@ -1,15 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32804.467
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingMiddleware_geh", "LoggingMiddleware_geh\LoggingMiddleware_geh.csproj", "{AFC5EE9B-1723-4310-B93C-98CC3A758169}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7C4CB5E-3164-4DBC-B130-3F171B13AC79}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingMiddleware_geh", "LoggingMiddleware_geh\LoggingMiddleware_geh.csproj", "{6800CC02-856E-4B9D-8C70-95D3373149CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AFC5EE9B-1723-4310-B93C-98CC3A758169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFC5EE9B-1723-4310-B93C-98CC3A758169}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFC5EE9B-1723-4310-B93C-98CC3A758169}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFC5EE9B-1723-4310-B93C-98CC3A758169}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6800CC02-856E-4B9D-8C70-95D3373149CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6800CC02-856E-4B9D-8C70-95D3373149CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6800CC02-856E-4B9D-8C70-95D3373149CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6800CC02-856E-4B9D-8C70-95D3373149CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
