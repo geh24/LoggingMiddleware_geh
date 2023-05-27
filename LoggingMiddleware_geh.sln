@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingMiddleware_geh", "LoggingMiddleware_geh\LoggingMiddleware_geh.csproj", "{6800CC02-856E-4B9D-8C70-95D3373149CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingMiddleware_geh", "LoggingMiddleware_geh\LoggingMiddleware_geh.csproj", "{6800CC02-856E-4B9D-8C70-95D3373149CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{80121FE7-B289-4971-9DD1-AE3C10832A17}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
