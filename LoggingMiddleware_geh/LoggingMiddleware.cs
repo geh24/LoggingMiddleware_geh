@@ -44,9 +44,9 @@ namespace LoggingMiddleware_geh
             logFactory = NLogBuilder.ConfigureNLog(nlogConfig);
         }
 
-        public static LMLogger getLoger()
+        public static LMLogger getLogger()
         {
-            return (LMLogger)logFactory.GetCurrentClassLogger();
+            return new LMLogger(logFactory.GetCurrentClassLogger());
         }
 
         public static void enableTraceBody(bool b)

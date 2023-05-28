@@ -19,6 +19,11 @@ namespace LoggingMiddleware_geh
         {
             return new LMLogger(name);
         }
+        public LMLogger(Logger log)
+        {
+            this.log = log;
+            this.name = log.Name;
+        }
 
         public void Fatal(string msg, Exception ex = null, [CallerLineNumber] int lineNumber = 0)
         {
