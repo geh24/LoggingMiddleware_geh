@@ -2,15 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Version>0.7.6</Version>
+    <Version>0.7.7</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description></Description>
-    <PackageReleaseNotes>rename TraceQuery -&gt; TraceQueryString</PackageReleaseNotes>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/geh24/LoggingMiddleware_geh</PackageProjectUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Revert "inject RequestDelegate next into InvokeAsync"</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
+	<None Include="..\README.md" Pack="true" PackagePath="\"/>
     <PackageReference Include="NLog.Database" Version="5.1.5" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.3" />
   </ItemGroup>

@@ -2,18 +2,24 @@
 
 ## Description
 
-July 2018 i started to write a .NET Core middleware, that should log API-requests and -response.
+In July 2018 i started to write a .NET Core middleware, that should log API-Requests and -Responses.  
+Additionally the timing of a Request/Response is measured und can be logged
+in a metric-data format suitable for Splunk, Elasticsearch, SigNoz or similar tools.  
 Optionally the full Body, all Headers and/or the Querystring can be logged.
-
-The LoggingMiddleware project is based on NLog. For an example nlog.config see the Demo-project.
-
-I use this project successfuly since three years, starting with .NET Core 1.1, right now the
-master-branch is using .NET Core 6.0.
-
 
 The name LoggingMiddleware was already used, so i appended my 3-char Initials meaning Gerhard Herre
 
-## Demo
+The LoggingMiddleware_geh project is based on NLog. For an example nlog.config see the Demo-Project.
 
-There is a, ASP.NET Core Web App Demo project called LoggingMiddleware_geh_Demo that shows the usage
-of the Logging library. 
+I started this project using .NET Core 1.1, right now the master-branch is using .NET 7.0.  
+
+I use this project successfully for several Swingdance-related Websites like  
+[RockThatSwing-Festival](https://www.rockthatswing.com/)
+or [Munich Balboa and Shag Weekend](https://mbsw.worldofswing.com/)
+
+
+## Demo-Project
+
+There is a .NET Core Web App project
+[LoggingMiddleware_geh_Demo](https://github.com/geh24/LoggingMiddleware_geh_Demo)
+that demonstrates the usage of the Logging library. 
