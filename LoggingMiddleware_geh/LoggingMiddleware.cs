@@ -25,7 +25,7 @@ namespace LoggingMiddleware_geh
     public class LoggingMiddleware_geh
     {
         private static LogFactory logFactory;
-        private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware));
+        private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware_geh));
         private static bool bTraceBody = false;
         private static bool bTraceHeaders = false;
         private static bool bTraceQueryString = false;
@@ -44,9 +44,9 @@ namespace LoggingMiddleware_geh
             logFactory = NLogBuilder.ConfigureNLog(nlogConfig);
         }
 
-        public static Logger getLoger()
+        public static LMLogger getLoger()
         {
-            return logFactory.GetCurrentClassLogger();
+            return (LMLogger)logFactory.GetCurrentClassLogger();
         }
 
         public static void enableTraceBody(bool b)

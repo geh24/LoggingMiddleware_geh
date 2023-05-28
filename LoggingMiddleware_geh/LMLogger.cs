@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace LoggingMiddleware
+namespace LoggingMiddleware_geh
 {
     public class LMLogger : Logger
     {
