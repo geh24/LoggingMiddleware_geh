@@ -30,6 +30,8 @@ namespace LoggingMiddleware_geh
         private static bool bTraceHeaders = false;
         private static bool bTraceQueryString = false;
 
+        private readonly RequestDelegate _next;
+
         public static void init(string nlogConfig)
         {
             // Define variables and initialize NLog
@@ -60,9 +62,14 @@ namespace LoggingMiddleware_geh
             bTraceQueryString = b;
         }
 
+        public LoggingMiddleware_geh(RequestDelegate next)
+        {
+            _next = next;
+        }
+
         private ConcurrentDictionary<string, long> cdictStartTicks = new ConcurrentDictionary<string, long>();
 
-        public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             log.Info(HttpLogger.REQUEST, httpContext);
 
@@ -109,7 +116,7 @@ namespace LoggingMiddleware_geh
                         var originalResponseBody = httpContext.Response.Body;
                         httpContext.Response.Body = swapStream;
 
-                        await next(httpContext);
+                        await this._next(httpContext);
 
                         swapStream.Seek(0, SeekOrigin.Begin);
                         responseBody = new StreamReader(swapStream).ReadToEnd();
@@ -122,7 +129,7 @@ namespace LoggingMiddleware_geh
                     }
                 } else
                 {
-                    await next(httpContext);
+                    await this._next(httpContext);
                 }
             } catch(Exception e) {
                 log.Error(HttpLogger.RESPONSE,
