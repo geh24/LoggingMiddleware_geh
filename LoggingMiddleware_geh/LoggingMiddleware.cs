@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using NLog;
 using NLog.Common;
-using NLog.Web;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -25,7 +24,7 @@ namespace LoggingMiddleware_geh
     public class LoggingMiddleware_geh
     {
         private static LogFactory logFactory;
-        private static HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware_geh));
+        private static readonly HttpLogger log = HttpLogger.getLogger(nameof(LoggingMiddleware_geh));
         private static bool bTraceBody = false;
         private static bool bTraceHeaders = false;
         private static bool bTraceQueryString = false;
@@ -41,7 +40,8 @@ namespace LoggingMiddleware_geh
             GlobalDiagnosticsContext.Set("logdir", logdir);
             InternalLogger.LogFile = logdir + "/" + domainName + "_internal.log";
 
-            logFactory = NLogBuilder.ConfigureNLog(nlogConfig);
+            LogManager.Setup().LoadConfigurationFromFile(nlogConfig);
+            logFactory = LogManager.LogFactory;
         }
 
         public static LMLogger getLogger()
