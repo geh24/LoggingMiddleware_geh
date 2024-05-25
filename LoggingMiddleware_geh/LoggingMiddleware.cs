@@ -39,6 +39,7 @@ namespace LoggingMiddleware_geh
             GlobalDiagnosticsContext.Set("domainName", domainName);
             GlobalDiagnosticsContext.Set("logdir", logdir);
             InternalLogger.LogFile = logdir + "/" + domainName + "_internal.log";
+            InternalLogger.LogLevel = LogLevel.Debug;
 
             LogManager.Setup().LoadConfigurationFromFile(nlogConfig);
             logFactory = LogManager.LogFactory;
@@ -49,6 +50,10 @@ namespace LoggingMiddleware_geh
             return new LMLogger(logFactory.GetCurrentClassLogger());
         }
 
+        public static void setInternalLogLevel(LogLevel logLevel)
+        {
+            InternalLogger.LogLevel = logLevel;
+        }
         public static void enableTraceBody(bool b)
         {
             bTraceBody = b;

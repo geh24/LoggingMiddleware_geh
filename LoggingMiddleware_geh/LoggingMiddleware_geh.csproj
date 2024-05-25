@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>0.8.1</Version>
+    <Version>0.8.2</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -10,13 +10,13 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/geh24/LoggingMiddleware_geh</PackageProjectUrl>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>fix Removal of NLog-dependency</PackageReleaseNotes>
+    <PackageReleaseNotes>add LogLevel for InternalLogger</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
 	<None Include="..\README.md" Pack="true" PackagePath="\" />
-    <PackageReference Include="NLog.Database" Version="5.2.8" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+    <PackageReference Include="NLog.Database" Version="5.3.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
   </ItemGroup>
 
 </Project>
