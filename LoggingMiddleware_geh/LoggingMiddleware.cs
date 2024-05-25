@@ -31,7 +31,7 @@ namespace LoggingMiddleware_geh
 
         private readonly RequestDelegate _next;
 
-        public static void init(string nlogConfig)
+        public static void init(string nlogConfig, LogLevel logLevel = null)
         {
             // Define variables and initialize NLog
             string domainName = AppDomain.CurrentDomain.FriendlyName;
@@ -39,7 +39,11 @@ namespace LoggingMiddleware_geh
             GlobalDiagnosticsContext.Set("domainName", domainName);
             GlobalDiagnosticsContext.Set("logdir", logdir);
             InternalLogger.LogFile = logdir + "/" + domainName + "_internal.log";
-            InternalLogger.LogLevel = LogLevel.Debug;
+            if (logLevel == null) {
+                InternalLogger.LogLevel = LogLevel.Debug;
+            } else {
+                InternalLogger.LogLevel = logLevel;
+            }
 
             LogManager.Setup().LoadConfigurationFromFile(nlogConfig);
             logFactory = LogManager.LogFactory;

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>0.8.2</Version>
+    <Version>0.8.3</Version>
     <Authors>Gerhard Herre</Authors>
     <PackageId>LoggingMiddleware_geh</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -10,7 +10,7 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/geh24/LoggingMiddleware_geh</PackageProjectUrl>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>add LogLevel for InternalLogger</PackageReleaseNotes>
+    <PackageReleaseNotes>add LogLevel for init</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
